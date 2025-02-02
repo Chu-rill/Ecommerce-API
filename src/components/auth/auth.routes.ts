@@ -3,6 +3,7 @@ import authController from "./auth.controller";
 import {
   confirmResetPassword,
   login,
+  newsletter,
   register,
   ResetPassword,
   validateOTP,
@@ -16,7 +17,11 @@ authRoutes.post(
   validateSchema(register), // Use the named import
   authController.signup
 );
-
+authRoutes.post(
+  "/newsletter",
+  validateSchema(newsletter),
+  authController.newsletter
+);
 authRoutes.post(
   "/login",
   validateSchema(login), // Use the named import
@@ -27,6 +32,7 @@ authRoutes.post(
   validateSchema(validateOTP),
   authController.validateOTP
 );
+authRoutes.post("/resend-otp/:id", authController.resendOTP);
 authRoutes.post(
   "/reset-password/:id",
   validateSchema(ResetPassword),

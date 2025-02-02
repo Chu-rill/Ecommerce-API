@@ -23,7 +23,7 @@ this is the service layer for the user component. It contains the business logic
 
 class UserService {
   async loginUser(
-    username: string,
+    email: string,
     password: string
   ): Promise<
     | LoginResponse
@@ -32,9 +32,7 @@ class UserService {
     | typeof Errors.defaultError
   > {
     try {
-      const user = (await userRepository.findByUsername(
-        username
-      )) as UserDocument;
+      const user = (await userRepository.findByEmail(email)) as UserDocument;
       if (!user) return Errors.doesNotExist;
       // const hashedPassword = await encrypt(password);
       const trimmedPassword = password.trim().toLowerCase();
@@ -59,7 +57,7 @@ class UserService {
         status: "success",
         error: false,
         statusCode: httpStatus.OK,
-        data: { username: user.fullName, id: user.id }, // Ensure _id is a string
+        data: { email: user.email, id: user.id }, // Ensure _id is a string
         token,
       };
     } catch (error) {
@@ -69,38 +67,25 @@ class UserService {
   }
 
   async createUser(
-    fullName: string,
     username: string,
     password: string,
-    email: string,
-    dateOfBirth: Date,
-    phone: string,
-    profile: string,
-    address: string,
-    role: Role
+    email: string
   ): Promise<
     CreateUserResponse | typeof Errors.noDuplicate | typeof Errors.defaultError
   > {
     try {
       const existingUser = await userRepository.findByEmail(email);
       if (existingUser) return Errors.noDuplicate;
-      const trimmedFullName = fullName.trim();
       const trimmedPassword = password.trim().toLowerCase();
       const wallet = generateWalletId();
 
       const hashedPassword = await encrypt(trimmedPassword);
 
       const user = await userRepository.createUser({
-        fullName: trimmedFullName,
         username,
         password: hashedPassword,
         email,
-        phone,
         wallet,
-        dateOfBirth,
-        profile,
-        address,
-        role,
       });
 
       if (!user) return Errors.defaultError;
@@ -112,14 +97,8 @@ class UserService {
         message: "Signup successful, OTP sent to your email",
         data: {
           id: user.id,
-          fullName: user.fullName,
           username: user.username,
           email: user.email,
-          dateOfBirth: user.dateOfBirth,
-          phone: user.phone,
-          wallet: user.wallet,
-          profile: user.profile,
-          address: user.address,
           role: user.role,
         },
       };
@@ -401,6 +380,34 @@ class UserService {
         statusCode: httpStatus.INTERNAL_SERVER_ERROR,
         message: "Error uploading profile image",
       };
+    }
+  }
+
+  async sendNewsLetter(email: string): Promise<{
+    status: string;
+    error: boolean;
+    statusCode: number;
+    message: string;
+  }> {
+    try {
+      const data = await userRepository.newsLetter(email);
+      if (!data) {
+        return {
+          status: "error",
+          error: true,
+          statusCode: httpStatus.BAD_REQUEST,
+          message: "Failed to send newsletter",
+        };
+      }
+      return {
+        status: "success",
+        error: false,
+        statusCode: httpStatus.OK,
+        message: "News letter sent",
+      };
+    } catch (error) {
+      console.error("Newsletter error:", error);
+      return Errors.defaultError;
     }
   }
 }
