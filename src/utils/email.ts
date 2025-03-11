@@ -17,6 +17,7 @@ class EmailService {
       host: process.env.EMAIL_PROVIDER,
       port: Number(process.env.SERVICE_PORT),
       secure: false,
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -140,7 +141,7 @@ class EmailService {
       const info = await this.transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
-        subject: "Newsletter",
+        subject: "Pickit Newsletter",
         html: emailTemplate({}),
       });
 
