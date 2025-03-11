@@ -93,16 +93,3 @@ Validation schemas ensure that incoming data meets the required format and const
 Type definitions enhance type safety across the application.
 
 - **types.d.ts**: Contains custom type definitions used throughout the project.
-
-## Getting Started
-
-To get started with the project, follow these steps:
-
-1. Clone the repository.
-2. Install the dependencies using `npm install`.
-3. Set up your environment variables in a `.env` file.
-4. Run the application using `npm run dev`.
-
-## Conclusion
-
-This project serves as a comprehensive backend solution, providing essential features for user and product management. It is designed to be scalable and maintainable, making it suitable for various applications.
