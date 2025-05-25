@@ -1,95 +1,106 @@
-### **Backend README**
+# E-commerce API
 
-# Project Overview
+A robust RESTful API built with TypeScript and Express.js for managing an e-commerce platform. Features include user authentication, product management, shopping cart functionality, and admin controls.
 
-This project is a backend application built using TypeScript and Express.js, designed to provide a robust API for managing users, products, and categories. It utilizes Prisma as an ORM for database interactions, ensuring type safety and ease of use.
+## 🌟 Features
 
-**Live API URL:**https://ecommerce-api-production-5b59.up.railway.app/
+- **Authentication & Authorization**
 
-## Key Components
+  - JWT-based authentication
+  - Role-based access control (Admin, Seller, User)
+  - Email verification and password reset
 
-### 1. **Controllers**
+- **User Management**
 
-Controllers handle incoming requests and return responses. They act as intermediaries between the client and the service layer.
+  - User registration and profile management
+  - Seller account creation and verification
+  - Admin controls for user blocking/unblocking
 
-- **auth.controller.ts**: Manages authentication-related operations.
-- **user.controller.ts**: Handles user-related requests such as creating, updating, and retrieving user information.
+- **Product Management**
 
-### 2. **Services**
+  - Product CRUD operations
+  - Category management
+  - Image upload support
+  - Product approval workflow
 
-Services contain the business logic of the application. They interact with repositories to perform CRUD operations.
+- **Shopping Features**
 
-- **user.service.ts**: Contains methods for user management, including creating and retrieving users.
+  - Shopping cart management
+  - Order processing
+  - Transaction history
+  - Product reviews and ratings
 
-### 3. **Repositories**
+- **Admin Dashboard**
+  - User management
+  - Product approval system
+  - Seller verification
+  - Transaction monitoring
 
-Repositories are responsible for direct database interactions. They abstract the data access layer and provide methods to interact with the database.
+## 🛠️ Tech Stack
 
-- **user.repository.ts**: Contains methods for querying user data from the database.
+- TypeScript
+- Express.js
+- Prisma ORM
+- PostgreSQL
+- JWT Authentication
+- Jest for testing
+- Railway for deployment
 
-### 4. **Middleware**
+## 🚀 Quick Start
 
-Middleware functions are executed during the request-response cycle. They can modify the request or response objects, end the request-response cycle, or call the next middleware function.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/ecommerce-api.git
+   ```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+3. **Environment Setup**
+   Copy .env.example to .env
+   Configure your database and other environment variables
+4. **Database Setup**
+   ```bash
+   npx prisma migrate dev
+   ```
+5. **Start Development Server**
+   ```bash
+   npm run dev
+   ```
 
-- **jwt.ts**: Handles JWT token verification for protected routes.
-- **ValidationMiddleware.ts**: Validates incoming request data against defined schemas.
+## 📚 API Documentation
 
-### 5. **Models**
+Base URL: https://ecommerce-api-production-5b59.up.railway.app/
 
-Models define the structure of the data in the application. They represent the database entities.
+### API Endpoints
 
-- **User.ts**: Defines the User model, including fields like username, email, and password.
+- **Auth**: /api/v1/auth
+  Registration, login, password reset
+- **Users**: /api/v1/users
+  User profile management
+- **Products**: /api/v1/products
+  Product CRUD operations
+- **Categories**: /api/v1/categories
+  Category management
+- **Cart**: /api/v1/carts
+  Shopping cart operations
+- **Admin**: /api/v1/admin
+  Administrative functions
 
-### 6. **Routes**
+## 🔒 Security
 
-Routes define the endpoints of the API and map them to the appropriate controller methods.
+- JWT token authentication
+- Request validation using middleware
+- Password encryption
+- Protected routes
+- Input sanitization
 
-- **auth.routes.ts**: Contains routes related to authentication.
-- **user.routes.ts**: Contains routes for user management.
+## 🧪 Testing
 
-### routes for admins
+```bash
+npm run test
+```
 
-- **category.routes.ts**: Contains routes for category management.
-  - `POST /api/v1/categories`: Requires `isAdmin` middleware.
-  - `PUT /api/v1/categories/:id`: Requires `isAdmin` middleware.
-  - `DELETE /api/v1/categories/:id`: Requires `isAdmin` middleware.
-- **admin.routes.ts**: Contains routes for admin operations.
-  - `POST /api/v1/admin/block-user/:id`: Requires `isAdmin` middleware.
-  - `POST /api/v1/admin/unblock-user/:id`: Requires `isAdmin` middleware.
-  - `DELETE /api/v1/admin/delete-user/:id`: Requires `isAdmin` middleware.
-  - `POST /api/v1/admin/approve-product/:id`: Requires `isAdmin` middleware.
-  - `POST /api/v1/admin/approve-seller/:id`: Requires `isAdmin` middleware.
-  - `GET /api/v1/admin/products`: Requires `isAdmin` middleware.
-- **transaction.routes.ts**: Contains routes for transaction management.
-  - `GET /api/v1/transactions`: Requires `isAdmin` middleware.
-- **cart.routes.ts**: Contains routes for cart management.
-  - `GET /api/v1/carts`: Requires `isAdmin` middleware.
-- **review.routes.ts**: Contains routes for review management.
-  - `GET /api/v1/reviews`: Requires `isAdmin` middleware.
+## 📄 License
 
-### 7. **Error Handling**
-
-The application includes a centralized error handling mechanism to manage and respond to errors consistently.
-
-- **error.ts**: Defines error response structures and common error messages.
-- **validation.error.ts**: Handles validation-specific errors.
-
-### 8. **Utilities**
-
-Utility functions provide common functionalities that can be reused across the application.
-
-- **db.ts**: Manages database connections.
-- **email.ts**: Contains functions for sending emails.
-- **encryption.ts**: Provides encryption and decryption functionalities.
-
-### 9. **Validation**
-
-Validation schemas ensure that incoming data meets the required format and constraints.
-
-- **auth.validation.ts**: Defines validation rules for authentication-related data.
-
-### 10. **Types**
-
-Type definitions enhance type safety across the application.
-
-- **types.d.ts**: Contains custom type definitions used throughout the project.
+MIT

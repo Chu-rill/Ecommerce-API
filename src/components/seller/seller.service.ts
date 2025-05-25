@@ -22,9 +22,9 @@ class SellerService {
         throw createError(404, "User not found");
       }
 
-      if (user.role === "SELLER") {
-        throw createError(400, "User is already a seller");
-      }
+      // if (user.role === "SELLER") {
+      //   throw createError(400, "User is already a seller");
+      // }
 
       // Use transaction to ensure both operations succeed or fail together
       const seller = await prisma.$transaction(async (tx) => {
@@ -66,7 +66,6 @@ class SellerService {
         logo: seller.logo,
         rating: seller.rating,
         totalSales: seller.totalSales,
-        isVerified: seller.isVerified,
         createdAt: seller.createdAt,
       };
     } catch (error) {
@@ -74,11 +73,15 @@ class SellerService {
       throw error;
     }
   }
-  async findById(id: string): Promise<any> {
+  async findById(sellerId: string): Promise<any> {
     const seller = prisma.seller.findUnique({
-      where: { id },
+      where: { id: sellerId },
     });
     return seller;
+  }
+  async findAll(): Promise<Seller[]> {
+    const sellers = prisma.seller.findMany();
+    return sellers;
   }
 }
 
