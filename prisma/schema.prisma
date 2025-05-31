@@ -53,7 +53,7 @@ model email {
 
 model Seller {
   id              String        @id @default(uuid())
-  user            User          @relation(fields: [userId], references: [id])
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String        @unique
   businessName    String // Store/Business name
   description     String? // Business description
@@ -98,7 +98,7 @@ model Product {
   isApproved  Boolean    @default(false)
   category    Category   @relation(fields: [categoryId], references: [id])
   categoryId  String
-  seller      Seller     @relation("SellerProducts", fields: [sellerId], references: [id])
+  seller      Seller     @relation("SellerProducts", fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId    String
   reviews     Review[]
   createdAt   DateTime   @default(now())
@@ -121,7 +121,7 @@ model Category {
 
 model Order {
   id              String       @id @default(uuid())
-  user            User         @relation(fields: [userId], references: [id])
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   cart            Cart?        @relation("CartOrder", fields: [cartId], references: [id])
   cartId          String?      @unique
@@ -148,9 +148,9 @@ model Review {
   id        String   @id @default(uuid())
   rating    Int
   comment   String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,7 +160,7 @@ model Review {
 
 model Cart {
   id        String     @id @default(uuid())
-  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String?    @unique
   cartItems CartItem[]
   order     Order?     @relation("CartOrder")
@@ -173,9 +173,9 @@ model Cart {
 
 model CartItem {
   id        String   @id @default(uuid())
-  cart      Cart     @relation(fields: [cartId], references: [id])
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    String
-  product   Product  @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
   quantity  Int
   createdAt DateTime @default(now())
@@ -186,11 +186,11 @@ model CartItem {
 
 model Transaction {
   id              String            @id @default(uuid())
-  user            User              @relation(fields: [userId], references: [id])
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   order           Order?            @relation("OrderTransaction", fields: [orderId], references: [id])
   orderId         String?           @unique
-  seller          Seller            @relation(fields: [sellerId], references: [id])
+  seller          Seller            @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId        String
   amount          Int
   status          TransactionStatus @default(PENDING)

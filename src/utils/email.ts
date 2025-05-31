@@ -79,7 +79,7 @@ class EmailService {
         to: email,
         subject: data.subject,
         html: emailTemplate({
-          PlatformName: "Pickit",
+          PlatformName: "ShopHub",
           Username: data.username,
           title: "Welcome Email",
           OTP: data.OTP,
@@ -141,7 +141,7 @@ class EmailService {
       const info = await this.transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
-        subject: "Pickit Newsletter",
+        subject: "ShopHub Newsletter",
         html: emailTemplate({}),
       });
 

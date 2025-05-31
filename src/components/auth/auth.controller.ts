@@ -43,7 +43,7 @@ class AuthController {
 
       // Prepare the email data
       const data = {
-        subject: "Pickit validation",
+        subject: "ShopHub validation",
         username: username,
         OTP: otp, // This is now a string
       };
